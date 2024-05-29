@@ -15,7 +15,7 @@ def logging(*args):
     date = datetime.datetime.now()
     file = f'{date.year}-{date.month}-{date.day}_log.txt'
     with open(file, 'a') as f:
-        f.write(args)
+        f.write(str(args))
 
 class PluginHandler:
     def __init__(self, plugins=['log']):
@@ -47,7 +47,7 @@ class NFCGateClientHandler(socketserver.StreamRequestHandler):
         
     def log(self, *args, tag="server"):
         self.server.log(*args, origin=self.client_address, tag=tag)
-        logging(*args, origin=self.client_address, tag=tag)
+        logging(*args, self.client_address, tag)
 
     def setup(self):
         super().setup()
